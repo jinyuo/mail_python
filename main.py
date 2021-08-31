@@ -6,7 +6,7 @@ import mail_sender
 # sender/recipient info
 email_sender = 'exampleh@example.com'
 sender_passwd = 'PASSWD'
-email_recipient = 'exampleh@example.com
+email_recipient = 'exampleh@example.com'
 email_server = 'smtp.gmail.com'
 email_server_port = 587
 
