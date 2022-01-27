@@ -39,18 +39,12 @@ class MailSender:
         self.msg.attach(MIMEText(self.body, 'plain'))
         self.attachment(exist_attachment, attachment_filepath)
 
-    def send(self):
+    def send(self, login=False):
         recipients_list = self.recipient + self.email_cc
         server = smtplib.SMTP(self.email_server, self.email_server_port)
         server.ehlo()
-        server.starttls()
-        server.login(self.sender, self.passwd)
-        server.sendmail(self.sender, recipients_list, self.msg.as_string())
-        server.quit()
-
-    def send_nologin(self):
-        recipients_list = self.recipient + self.email_cc
-        server = smtplib.SMTP(self.email_server, self.email_server_port)
-        server.ehlo()
+        if login:
+            server.starttls()
+            server.login(self.sender, self.passwd)
         server.sendmail(self.sender, recipients_list, self.msg.as_string())
         server.quit()
