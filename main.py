@@ -6,7 +6,8 @@ import mail_sender
 # sender/recipient info
 email_sender = 'exampleh@example.com'
 sender_passwd = 'PASSWD'
-email_recipient = 'exampleh@example.com'
+email_recipient = ['exampleh@example.com']
+email_cc = ['exampleh@example.com', 'exampleh@example.com']
 email_server = 'smtp.gmail.com'
 email_server_port = 587
 
@@ -26,4 +27,4 @@ mail.context(subject, body)
 mail.write(exist_attachment, attachment_filepath)
 
 # sending mail
-mail.send_nologin()
+mail.send(login=False)
