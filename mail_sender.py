@@ -6,11 +6,12 @@ from email import encoders
 import os
 
 class MailSender:
-    def __init__(self, email_sender, sender_passwd, email_recipient, email_server, email_server_port):
+    def __init__(self, email_sender, sender_passwd, email_recipient, email_cc, email_server, email_server_port):
         self.msg = MIMEMultipart()
         self.sender = email_sender
         self.passwd = sender_passwd
         self.recipient = email_recipient
+        self.email_cc = email_cc
         self.email_server = email_server
         self.email_server_port = email_server_port
         self.subject = ""
@@ -31,22 +32,25 @@ class MailSender:
 
     def write(self, exist_attachment, attachment_filepath):
         self.msg['From'] = self.sender
-        self.msg['To'] = self.recipient
+        self.msg['To'] = ",".join(self.recipient)
+        self.msg['Cc'] = ",".join(self.email_cc)
         self.msg['Subject'] = self.subject
 
         self.msg.attach(MIMEText(self.body, 'plain'))
         self.attachment(exist_attachment, attachment_filepath)
 
     def send(self):
+        recipients_list = self.recipient + self.email_cc
         server = smtplib.SMTP(self.email_server, self.email_server_port)
         server.ehlo()
         server.starttls()
         server.login(self.sender, self.passwd)
-        server.sendmail(self.sender, self.recipient, self.msg.as_string())
+        server.sendmail(self.sender, recipients_list, self.msg.as_string())
         server.quit()
-        
+
     def send_nologin(self):
+        recipients_list = self.recipient + self.email_cc
         server = smtplib.SMTP(self.email_server, self.email_server_port)
         server.ehlo()
-        server.sendmail(self.sender, self.recipient, self.msg.as_string())
+        server.sendmail(self.sender, recipients_list, self.msg.as_string())
         server.quit()
