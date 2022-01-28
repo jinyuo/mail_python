@@ -20,7 +20,7 @@ exist_attachment = True
 attachment_filepath = 'FILE_PATH'
 
 # init Mail essentail info
-mail = mail_sender.MailSender(email_sender, sender_passwd, email_recipient, email_server, email_server_port)
+mail = mail_sender.MailSender(email_sender, sender_passwd, email_recipient, email_cc, email_server, email_server_port)
 
 # writing subject/body of mail
 mail.context(subject, body)
