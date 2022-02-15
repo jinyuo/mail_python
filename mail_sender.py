@@ -42,9 +42,10 @@ class MailSender:
     def send(self, login=False):
         recipients_list = self.recipient + self.email_cc
         server = smtplib.SMTP(self.email_server, self.email_server_port)
-        server.ehlo()
         if login:
             server.starttls()
+            server.ehlo()
             server.login(self.sender, self.passwd)
+        server.ehlo()
         server.sendmail(self.sender, recipients_list, self.msg.as_string())
         server.quit()
